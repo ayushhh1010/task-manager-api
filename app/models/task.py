@@ -1,7 +1,8 @@
 from beanie import Document
+from beanie.odm.fields import PydanticObjectId
 from pydantic import Field
 from typing import Optional
-from datatime import datetime
+from datetime import datetime
 from app.schemas.task import TaskPriority, TaskStatus
 
 class Task(Document):

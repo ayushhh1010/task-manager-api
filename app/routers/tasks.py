@@ -3,6 +3,7 @@ from app.schemas.task import CreateTaskRequest, TaskResponse
 from app.models.task import Task
 from app.models.user import User
 from app.core.dependencies import get_current_user
+from app.tasks import send_task_created_notification
 
 router = APIRouter(
     prefix="/tasks",
@@ -36,4 +37,11 @@ async def create_task(data: CreateTaskRequest, current_user: User=Depends(get_cu
         status=data.status
     )
     await task.insert()
+
+    send_task_created_notification.delay(
+        task_id=str(task.id),
+        task_title=task.title,
+        user_email=current_user.email
+    )
+
     return TaskResponse.from_task(task)

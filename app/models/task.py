@@ -10,6 +10,7 @@ class Task(Document):
     description: Optional[str]=None
     priority: TaskPriority= TaskPriority.medium
     status: TaskStatus = TaskStatus.pending
+    created_by: Optional[str] = None
     created_at: datetime= Field(default_factory=datetime.utcnow)
 
     class Settings:

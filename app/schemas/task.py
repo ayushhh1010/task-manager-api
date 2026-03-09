@@ -29,6 +29,7 @@ class TaskResponse(BaseModel):
     description: Optional[str]
     priority: TaskPriority
     status: TaskStatus
+    created_by: Optional[str] = None
     created_at: Optional[datetime] =  None
 
     model_config = {"from_attributes": True, "arbitrary_types_allowed": True}
@@ -41,5 +42,13 @@ class TaskResponse(BaseModel):
             description= task.description,
             priority= task.priority,
             status= task.status,
+            created_by= task.created_by,
             created_at= task.created_at
         )
+
+
+class UpdateTaskRequest(BaseModel):
+    title: str = Field(..., min_length=3, max_length=100)
+    description: Optional[str] = Field(None, max_length=500)
+    priority: TaskPriority = TaskPriority.medium
+    status: TaskStatus = TaskStatus.pending
